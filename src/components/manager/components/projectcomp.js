@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Card, Container, Row, Col } from "react-bootstrap";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Button, Container, Table } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import ManagerSideBar from "./sidebar";
 
 function ProjectEmployeeComponent() {
@@ -21,31 +21,39 @@ function ProjectEmployeeComponent() {
   return (
     <Container className="mt-4">
       <h2 className="mb-4">Employee Projects</h2>
-      {project.map((p, index) => (
-        <Card key={index} className="mb-4">
-          <Card.Body>
-            <Card.Title>{p.project.title}</Card.Title>
-            <Card.Text>
-              <strong>Employee:</strong> {p.employee.name}<br />
-              <strong>Description:</strong> {p.project.longDesc}<br />
-              <strong>Start Date:</strong> {p.project.startDate}<br />
-              <strong>End Date:</strong> {p.project.endDate}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      ))}
-      {project.length === 0 && (
+      {project.length > 0 ? (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Project Title</th>
+              <th>Employee</th>
+              <th>Description</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {project.map((p, index) => (
+              <tr key={index}>
+                <td>{p.project.title}</td>
+                <td>{p.employee.name}</td>
+                <td>{p.project.longDesc}</td>
+                <td>{p.project.startDate}</td>
+                <td>{p.project.endDate}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
         <div className="text-center mt-4">
           <p>No projects found for the manager.</p>
         </div>
       )}
-      <Row className="mt-3">
-        <Col className="text-center">
-          <Button variant="primary" onClick={() => navigate('/post/employee/project')}>
-            Add Employee to Project
-          </Button>
-        </Col>
-      </Row>
+      <div className="text-center mt-3">
+        <Button variant="primary" onClick={() => navigate('/post/employee/project')}>
+          Add Employee to Project
+        </Button>
+      </div>
     </Container>
   );
 }

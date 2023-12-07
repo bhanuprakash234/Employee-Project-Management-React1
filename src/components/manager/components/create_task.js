@@ -14,12 +14,13 @@ function CreateTask() {
   const [days, setDays] = useState('');
   const [employeeId, setEmployeeId] = useState('');
   const [employees, setEmployees] = useState([]);
+  const [notification, setNotification] = useState('');
 
   useEffect(() => {
     const uid = localStorage.getItem('id');
     const mid = parseInt(uid, 10) + 1;
     // Fetch the list of employees from your API
-    axios.get('http://localhost:5050/employee/manager/'+mid)
+    axios.get('http://localhost:5050/employee/manager/' + mid)
       .then((response) => {
         setEmployees(response.data);
       })
@@ -34,24 +35,44 @@ function CreateTask() {
       alert('Please fill in all fields');
       return;
     }
+
     const taskId = `${sprintId}/${employeeId}`;
-    let taskObj={
-      "title":title,
-      "details":details,
-      "noOfDays":days
-  }
-  axios.post(`http://localhost:5050/task/add/${taskId}`, taskObj)
-  .then(response=>{
-      setTask(response.data)
-      navigate(-1);
-  })
-  .catch(function(error){
-      setMsg("Issue in processing in signup")
-  });
 
+    let taskObj = {
+      title: title,
+      details: details,
+      noOfDays: days,
+      employeeId: employeeId, // Include employeeId in the task object
+    };
 
-    
+    axios
+      .post(`http://localhost:5050/task/add/${taskId}`, taskObj)
+      .then((response) => {
+        setTask(response.data);
+
+        // Send a notification to the selected employee
+        const notificationData = {
+          
+          message: 'You have been assigned a task,Check Your Work Section to view your added tasks',
+        };
+
+        axios
+          .post('http://localhost:5050/sendNotification/'+employeeId, notificationData)
+          .then(response=>{
+            setNotification(response.data)
+            
+        })
+          .catch((notificationError) => {
+            console.error('Error sending notification:', notificationError);
+          });
+
+        navigate(-1);
+      })
+      .catch(function (error) {
+        setMsg('Issue in processing in signup');
+      });
   };
+
 
   return (
     <div className="container mt-5">
