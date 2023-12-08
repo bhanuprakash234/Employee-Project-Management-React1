@@ -69,16 +69,7 @@ function EmployeeNavbar() {
                 Notifications
               </Button>
               &nbsp;&nbsp;&nbsp;
-              <div className="search-bar">
-                <Form className="d-flex">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2 search-input"
-                    aria-label="Search"
-                  />
-                </Form>
-              </div>
+              
               <Button
                 variant="outline-light"
                 onClick={() => {
