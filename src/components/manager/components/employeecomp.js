@@ -1,6 +1,7 @@
+import React, { useState } from "react";
+import { Card, Container, Row, Col, Button, Nav, Modal } from "react-bootstrap";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Card, Container, Row, Col, Button, Nav } from "react-bootstrap";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ManagerEmployeeComponent() {
@@ -10,6 +11,8 @@ function ManagerEmployeeComponent() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [size,] = useState(12);
+  const [employeeDetails, setEmployeeDetails] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const uid = localStorage.getItem('id');
@@ -18,7 +21,6 @@ function ManagerEmployeeComponent() {
     axios.get(`http://localhost:5050/employee/manager/${mid}?page=${page}&size=${size}`)
       .then(response => {
         console.log(response.data);
-        // Use response.data.content instead of response.data.data
         const responseData = response.data.content || [];
         setEmployees(responseData);
       })
@@ -26,6 +28,43 @@ function ManagerEmployeeComponent() {
         setMsg('Error in Fetching employees');
       });
   }, [page, size]);
+
+  const handleEmployeeClick = (employee) => {
+    const employeeId = employee.id; // Replace 'id' with the actual property name in your employee object
+
+    axios.get(`http://localhost:5050/employee/one/${employeeId}`)
+      .then(response => {
+        console.log('Employee details:', response.data);
+        setEmployeeDetails(response.data);
+        setShowModal(true);
+      })
+      .catch(error => {
+        console.error('Error fetching employee details', error);
+        // Handle error scenarios
+      });
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleDeleteEmployee = () => {
+    if (employeeDetails) {
+      const employeeId = employeeDetails.id; // Replace 'id' with the actual property name in your employee object
+
+      axios.delete(`http://localhost:5050/employee/delete/${employeeId}`)
+        .then(response => {
+          console.log('Employee deleted successfully');
+          // Optionally, you may want to refresh the employee list after deletion
+          // You can make another API call to fetch the updated employee list
+          setShowModal(false);
+        })
+        .catch(error => {
+          console.error('Error deleting employee', error);
+          // Handle error scenarios
+        });
+    }
+  };
 
   const getEmployees = (direction) => {
     let temp = page;
@@ -42,7 +81,7 @@ function ManagerEmployeeComponent() {
         <Row>
           {employees.map((employee, index) => (
             <Col key={index} lg={4} md={6} sm={12} className="mb-3">
-              <Card style={{ backgroundColor: '#f0f0f0' }}>
+              <Card style={{ backgroundColor: '#f0f0f0' }} onClick={() => handleEmployeeClick(employee)}>
                 <Card.Body>
                   <Card.Title>{employee.name}</Card.Title>
                   <Card.Text>{employee.jobTitle}</Card.Text>
@@ -59,6 +98,7 @@ function ManagerEmployeeComponent() {
           </Col>
         </Row>
       </Container>
+
       <nav aria-label="Page navigation example">
         <ul className="pagination justify-content-center">
           <li className="page-item ">
@@ -84,6 +124,22 @@ function ManagerEmployeeComponent() {
           </li>
         </ul>
       </nav>
+
+      {/* Employee Details Modal */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{employeeDetails?.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Job Title: {employeeDetails?.jobTitle}</p>
+          <p>Email: {employeeDetails?.user.email}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleDeleteEmployee}>
+            Delete Employee
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import ProjectEmployeeComponent from "./components/projectcomp";
 import ManagerEmployeeComponent from "./components/employeecomp";
 import ManagerHome from "./components/mhome";
 import ManagerNavbar from "./components/mNavbar";
+import YourProfile1 from "./components/your_profile";
 
 function ManagerDashboard() {
   
@@ -36,6 +37,13 @@ function ManagerDashboard() {
       return (
         <div>
           <ProjectEmployeeComponent />
+        </div>
+      );
+    }
+    if (param.get('page') === 'your_profile') {
+      return (
+        <div>
+          <YourProfile1 />
         </div>
       );
     }

@@ -9,6 +9,7 @@ import TasksByEmployee from "./components/tasksByEmpId";
 import EmployeeNavbar from "./components/eNavbar";
 import EmployeeHomeComponent from "./components/employee_home";
 import ReduxEmployeeHome from "../redux/redux_employee";
+import YourProfile from "./components/your_profile";
 
 function EmployeeDashboard(){
     const[username,setUsername]=useState('');
@@ -33,6 +34,11 @@ function EmployeeDashboard(){
               <TasksByEmployee />
           </div>
       }
+      if(param.get('page') === 'your_profile'){
+        return <div>
+            <YourProfile />
+        </div>
+    }
      
     }
     return(

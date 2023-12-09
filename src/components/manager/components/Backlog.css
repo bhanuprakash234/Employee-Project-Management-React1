@@ -19,5 +19,9 @@
     padding: 10px;
     border: 1px solid #ccc;
   }
+  .custom-update-button {
+    background-color: purple; /* Set your desired background color */
+    /* Add any other styling properties as needed */
+  }
   
   

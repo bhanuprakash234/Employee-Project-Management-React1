@@ -22,6 +22,7 @@ function ManagerNavbar({ func }) {
               <Navbar.Text className="me-3">
                 Signed in as: <span style={{ color: "white" }}>{localStorage.getItem('username')}</span>
               </Navbar.Text>
+              <Nav.Link onClick={() => navigate('/manager/dashboard?page=your_profile')}>Your Profile</Nav.Link>&nbsp;&nbsp;
 
               
               <Button

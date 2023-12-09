@@ -24,20 +24,21 @@ function EmployeeHomeComponent(props) {
 
   return (
     <div className="container mt-4">
-      <Card>
-        <Card.Header className="bg-primary text-white">Projects</Card.Header>
-        <ListGroup variant="flush">
-          {projects.map((p, index) => (
-            <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-              <Nav.Link onClick={() => navigate("/employee/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-      </Card>
-      <div className="mt-4">
-       
-      </div>
-    </div>
+    <Card>
+      <Card.Header className="bg-primary text-white">Projects</Card.Header>
+      <ListGroup variant="flush">
+        {projects.map((p, index) => (
+          <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+            <Nav.Link onClick={() => navigate("/employee/backlog/sprint/tasks&pid=" + p.id)}>
+              {p.title}
+            </Nav.Link>
+            <span className="text-muted"><strong>Status:  </strong>{p.status}</span>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
+    </Card>
+    <div className="mt-4"></div>
+  </div>
   );
 }
 

@@ -42,6 +42,7 @@ function EmployeeNavbar() {
             <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
               <Nav.Link onClick={() => navigate('/employee/dashboard?page=home')}>Home</Nav.Link>
               <Nav.Link onClick={() => navigate('/employee/dashboard?page=your_work')}>Your Work</Nav.Link>
+              
             </Nav>
             <Nav className="d-flex align-items-center">
               <Navbar.Text className="me-3">
@@ -69,6 +70,8 @@ function EmployeeNavbar() {
                 Notifications
               </Button>
               &nbsp;&nbsp;&nbsp;
+              
+              <Nav.Link onClick={() => navigate('/employee/dashboard?page=your_profile')}>Your Profile</Nav.Link>&nbsp;
               
               <Button
                 variant="outline-light"
