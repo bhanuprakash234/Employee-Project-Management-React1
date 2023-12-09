@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import ManagerNavbar from "./mNavbar";
 
 function CreateBacklog() {
   const [name, setName] = useState("");
@@ -37,6 +38,8 @@ function CreateBacklog() {
   };
 
   return (
+    <div>
+      <ManagerNavbar />
     <div style={styles.container} className="mt-4">
       <h2>Create Backlog</h2>
       <form style={styles.form}>
@@ -64,6 +67,7 @@ function CreateBacklog() {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 }

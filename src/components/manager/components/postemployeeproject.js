@@ -22,7 +22,7 @@ function PostEmployeeProject() {
     const uid = localStorage.getItem('id');
     const mid = parseInt(uid, 10) + 1;
 
-    axios.get('http://localhost:5050/employee/manager/' + mid)
+    axios.get('http://localhost:5050/employee/list/manager/' + mid)
       .then(response => {
         setEmployees(response.data)
       })

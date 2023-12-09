@@ -7,6 +7,9 @@ import { useSearchParams } from "react-router-dom";
 import EmployeeHome from "./components/employee_home";
 import TasksByEmployee from "./components/tasksByEmpId";
 import EmployeeNavbar from "./components/eNavbar";
+import EmployeeHomeComponent from "./components/employee_home";
+import ReduxEmployeeHome from "../redux/redux_employee";
+
 function EmployeeDashboard(){
     const[username,setUsername]=useState('');
     const[show,setShow]=useState('');
@@ -16,13 +19,13 @@ function EmployeeDashboard(){
     const process = ()=>{
       if(!param.get('page')){
           return  <div>
-           <EmployeeHome />
+           <ReduxEmployeeHome />
       </div>
       }
       if(param.get('page') === 'home'){
            
           return <div>
-              <EmployeeHome />
+              <EmployeeHomeComponent />
           </div>
       }
       if(param.get('page') === 'your_work'){

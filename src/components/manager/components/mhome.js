@@ -62,25 +62,37 @@ function ManagerHome(props) {
 
       {/* Display search results or all projects based on the search query */}
       <Card>
-        <Card.Header className="bg-primary text-white">Projects</Card.Header>
-        <ListGroup variant="flush">
-          {searchQuery.trim().length > 0 ? (
-            // Display search results
-            searchResults.map((p, index) => (
-              <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
-              </ListGroup.Item>
-            ))
-          ) : (
-            // Display all projects
-            projects.map((p, index) => (
-              <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
-              </ListGroup.Item>
-            ))
-          )}
-        </ListGroup>
-      </Card>
+  <Card.Header className="bg-primary text-white">Projects</Card.Header>
+  <ListGroup variant="flush">
+    {searchQuery.trim().length > 0 ? (
+      // Display search results
+      searchResults.map((p, index) => (
+        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+          <div>
+            <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
+          </div>
+          <div className="text-right">
+            {/* Display the project status here */}
+            Status: {p.status}
+          </div>
+        </ListGroup.Item>
+      ))
+    ) : (
+      // Display all projects
+      projects.map((p, index) => (
+        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+          <div>
+            <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
+          </div>
+          <div className="text-right">
+            {/* Display the project status here */}
+            Status: {p.status}
+          </div>
+        </ListGroup.Item>
+      ))
+    )}
+  </ListGroup>
+</Card>
 
       <div className="mt-4">
         <button className="btn btn-primary" onClick={() => navigate("/post/project")}>

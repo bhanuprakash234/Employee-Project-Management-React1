@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./Backlog.css";
+import EmployeeNavbar from "./eNavbar";
 function EmployeeBacklog(){
     const [project, setProject] = useState({});
     const [backlog, setBacklog] = useState([]);
@@ -44,6 +45,8 @@ function EmployeeBacklog(){
         console.log("Creating a new backlog...");
       };
     return(
+      <div>
+        <EmployeeNavbar />
         <div className="container mt-5">
       <h1 style={{ color: "black" }}>{project.title}</h1>
 
@@ -101,6 +104,7 @@ function EmployeeBacklog(){
 
       <br />
       
+    </div>
     </div>
     )
 }

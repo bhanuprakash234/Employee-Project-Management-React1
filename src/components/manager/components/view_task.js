@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import ManagerNavbar from "./mNavbar";
 
 function ViewTask() {
   const [taskDetails, setTaskDetails] = useState({});
@@ -62,6 +63,8 @@ function ViewTask() {
   };
 
   return (
+    <div>
+      <ManagerNavbar />
     <div className="container mt-5">
       <div className="row">
         {/* Task Details Section */}
@@ -147,6 +150,7 @@ function ViewTask() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

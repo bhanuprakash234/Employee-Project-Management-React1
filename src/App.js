@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import ShapeExample from './image';
+
 import MainNavbar from './components/mainNavbar';
 import Login from './components/auth/login';
 import EmployeeDashboard from './components/employee/employeeDashboard';
@@ -19,6 +19,7 @@ import ViewTask from './components/manager/components/view_task';
 import EmployeeTask from './components/employee/components/employee_task';
 import CreateBacklog from './components/manager/components/create_backlog';
 import EmployeeBacklog from './components/employee/components/employee_backlog';
+import Reset from './components/auth/reset';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/manager/dashboard" element={<ManagerDashboard />}></Route>
           <Route path="/employee/post" element={<PostEmployee />}></Route>
           <Route path="/auth/login" element={<FirstPage />}></Route>
+          <Route path="/auth/reset" element={<Reset />}></Route>
           <Route path="/auth/signup" element={<SignUp />}></Route>
           <Route path="/auth/logout" element={<Logout />}></Route>
           <Route path="/manager/dashboard" element={<ManagerDashboard />}></Route>

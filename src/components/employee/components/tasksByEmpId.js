@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { Form, FormControl, Row, Col } from "react-bootstrap";
+import { Form, FormControl, Row, Col, Button, Nav } from "react-bootstrap";
 
 function TasksByEmployee() {
   const [tasks, setTasks] = useState([]);
@@ -11,6 +11,8 @@ function TasksByEmployee() {
   const uid = localStorage.getItem('id');
   const eid = parseInt(uid, 10) + 1;
   const navigate = useNavigate();
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(6);
 
   const fetchTasks = async () => {
     try {
@@ -26,7 +28,7 @@ function TasksByEmployee() {
         }
       } else {
         // Fetch all tasks if the search query is too short
-        const response = await axios.get(`http://localhost:5050/task/employee/${eid}`);
+        const response = await axios.get(`http://localhost:5050/task/employee/${eid}?page=${page}&size=${size}`);
         setTasks(response.data);
         setSearchMessage('');
       }
@@ -38,13 +40,23 @@ function TasksByEmployee() {
   useEffect(() => {
     // Fetch tasks when the component mounts
     fetchTasks();
-  }, [eid, searchQuery]);
+  }, [eid, searchQuery, page, size]);
 
   const handleSearch = (e) => {
     e.preventDefault(); // Prevent form submission
 
     // Trigger search when pressing Enter
+    // Reset page to 0 when performing a new search
     fetchTasks();
+  };
+
+  const getTasks = (direction) => {
+    let temp = page;
+    if (direction === 'prev' && temp > 0) {
+      setPage(--temp);
+    } else if (direction === 'next') {
+      setPage(++temp);
+    }
   };
 
   return (
@@ -87,6 +99,32 @@ function TasksByEmployee() {
           </Card.Body>
         </Card>
       ))}
+
+      <nav aria-label="Page navigation example">
+        <ul className="pagination justify-content-center">
+          <li className="page-item ">
+            {page === 0 ?
+              <Nav.Link className="page-link disabled" onClick={() => getTasks('prev')}>
+                Previous
+              </Nav.Link> :
+              <Nav.Link className="page-link" onClick={() => getTasks('prev')}>
+                Previous
+              </Nav.Link>
+            }
+          </li>
+          <li className="page-item">
+            {tasks.length < size ?
+              <Nav.Link className="page-link disabled" onClick={() => getTasks('next')}>
+                Next
+              </Nav.Link>
+              :
+              <Nav.Link className="page-link" onClick={() => getTasks('next')}>
+                Next
+              </Nav.Link>
+            }
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 }

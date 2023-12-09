@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import ManagerNavbar from "./mNavbar";
 
 function PostProject(){
     const[title,setTitle]=useState('');
@@ -33,6 +34,7 @@ function PostProject(){
     }
     return(
         <div>
+          <ManagerNavbar />
         <div className="container mt-4">
    <div className="row">
      <div className="col-md-3"></div>

@@ -82,6 +82,13 @@ function Login(){
                       onChange={(e)=>setPassword(e.target.value)} />
                     </div>
                   </div>
+                  <div style={{textAlign:'center',color:"white"}} className="mt-4" >
+                <span style={{color:"black"}}>Forgot Password?
+                  <button className="btn btn-link" 
+                  onClick={()=>navigate("/auth/reset")}>Reset</button>
+                  </span>
+
+</div>
                    
                 </div>
                 <div className="card-footer" style={{textAlign: "center"}}>

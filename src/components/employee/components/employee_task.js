@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import EmployeeNavbar from "./eNavbar";
 
 function EmployeeTask() {
   const [taskDetails, setTaskDetails] = useState({});
@@ -74,6 +75,8 @@ function EmployeeTask() {
   };
 
   return (
+    <div>
+      <EmployeeNavbar />
     <div className="container mt-5">
       <div className="row">
         {/* Task Details and Status Section */}
@@ -179,6 +182,7 @@ function EmployeeTask() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

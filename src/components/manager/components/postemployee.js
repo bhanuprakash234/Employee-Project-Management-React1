@@ -2,6 +2,7 @@ import './PostEmployee.css';
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import ManagerNavbar from './mNavbar';
 
 function PostEmployee() {
   const [name, setName] = useState('');
@@ -68,6 +69,7 @@ function PostEmployee() {
 
   return (
     <div>
+      <ManagerNavbar />
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-3"></div>

@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Card, ListGroup, Nav } from "react-bootstrap";
 
-function ManagerHomeComponent(props) {
+function EmployeeHomeComponent(props) {
   const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
   const uid = localStorage.getItem("id");
@@ -29,7 +29,7 @@ function ManagerHomeComponent(props) {
         <ListGroup variant="flush">
           {projects.map((p, index) => (
             <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-              <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
+              <Nav.Link onClick={() => navigate("/employee/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -41,4 +41,4 @@ function ManagerHomeComponent(props) {
   );
 }
 
-export default ManagerHomeComponent;
+export default EmployeeHomeComponent;

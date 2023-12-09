@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ManagerNavbar from './mNavbar';
 
 function CreateTask() {
   const { sid } = useParams();
@@ -20,7 +21,7 @@ function CreateTask() {
     const uid = localStorage.getItem('id');
     const mid = parseInt(uid, 10) + 1;
     // Fetch the list of employees from your API
-    axios.get('http://localhost:5050/employee/manager/' + mid)
+    axios.get('http://localhost:5050/employee/list/manager/' + mid)
       .then((response) => {
         setEmployees(response.data);
       })
@@ -75,6 +76,8 @@ function CreateTask() {
 
 
   return (
+    <div>
+      <ManagerNavbar />
     <div className="container mt-5">
       <h1 className="text-primary">Create Task</h1>
 
@@ -131,6 +134,7 @@ function CreateTask() {
       <button className="btn btn-primary" onClick={handleCreateTask}>
         Create Task
       </button>
+    </div>
     </div>
   );
 }

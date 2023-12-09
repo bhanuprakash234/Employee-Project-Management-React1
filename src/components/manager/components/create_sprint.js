@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import "./CreateSprint.css"; // Import your CSS file
+import ManagerNavbar from "./mNavbar";
 
 function CreateSprint() {
   const [title, setTitle] = useState("");
@@ -34,6 +35,8 @@ function CreateSprint() {
   };
 
   return (
+    <div>
+      <ManagerNavbar />
     <div className="create-sprint-container mt-4">
       <h2>Create Sprint</h2>
       <div className="form-group">
@@ -57,6 +60,7 @@ function CreateSprint() {
       <button className="create-btn" onClick={handleCreateSprint}>
         Create Sprint
       </button>
+    </div>
     </div>
   );
 }
