@@ -89,7 +89,9 @@ function ManagerHome(props) {
   };
 
   return (
-    <div className="container mt-4">
+    
+    
+    <div className="container mt-4 ">
       {/* Header Row */}
       <Row className="mb-3">
         <Col>
@@ -193,6 +195,8 @@ function ManagerHome(props) {
   </Modal.Footer>
 </Modal>
     </div>
+    
+    
   );
 }
 

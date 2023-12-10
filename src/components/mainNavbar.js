@@ -6,7 +6,7 @@ function MainNavbar() {
       <Navbar bg="dark" variant="dark" style={{ height: "50px" }}>
         
           <Navbar.Brand href="#home" style={{ paddingLeft: 0 }}>
-            <div style={{ width: "100%" }}>&nbsp;&nbsp;&nbsp;MyApp</div>
+            <div style={{ width: "100%" }}>&nbsp;&nbsp;&nbsp;TeamFlow</div>
           </Navbar.Brand>
         
       </Navbar>

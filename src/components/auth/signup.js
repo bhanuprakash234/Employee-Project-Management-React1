@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Container, Navbar, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import './SignUpPage.css'
 
 function SignUp() {
     const [name, setName] = useState('');
@@ -56,12 +57,13 @@ function SignUp() {
     };
 
     return (
-      <div>
+      <div className="signup-page-container">
       <Navbar bg="dark" data-bs-theme="dark" style={{ height: '50px' }}>
-          <Navbar.Brand href="#home">&nbsp;&nbsp;&nbsp;&nbsp;MyApp</Navbar.Brand>
+          <Navbar.Brand style={{color:"white"}}>&nbsp;&nbsp;&nbsp;&nbsp;Team Flow</Navbar.Brand>
       </Navbar>
+      <div className="signup-background-image"></div>
 
-      <Container className="mt-4">
+      <Container className="signup-container">
           <Row>
               <Col md={{ span: 6, offset: 3 }} className="ml-auto">
                   {/* Add ml-auto class to move the card to the right */}
@@ -110,7 +112,7 @@ function SignUp() {
                             </Card.Footer>
                         </Card>
                         <div className="mt-4" style={{ textAlign: "left" }}>
-                            <span>
+                            <span style={{color:"white"}}>
                                 Have an Account?
                                 <Button variant="link" onClick={() => navigate("/auth/login")}>
                                     Login

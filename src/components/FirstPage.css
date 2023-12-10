@@ -1,0 +1,19 @@
+.first-page-container {
+    position: relative;
+  }
+  
+  .login-background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 135%;
+    background-image: url('./development.jpg'); /* Replace with the path to your image */
+    background-size: cover;
+     /* Adjust the blur effect as needed */
+  }
+  
+  .login-container {
+    position: relative;
+    z-index: 1;
+  }

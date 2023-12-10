@@ -91,9 +91,10 @@ function Login(){
                   </div>
               </div>
               <div style={{textAlign:'left',color:"white"}} className="mt-4" >
-                <span style={{color:"black"}}>Don't have an Account?
-                  <button className="btn btn-link" 
-                  onClick={()=>navigate("/auth/signup")}>Signup</button>
+                <span style={{color:"white"}}>Don't have an Account?&nbsp;&nbsp;
+                  <button className="btn btn-dark btn-sm" 
+                  onClick={()=>navigate("/auth/signup")}
+                  >Signup</button>
 
                   
                 </span>

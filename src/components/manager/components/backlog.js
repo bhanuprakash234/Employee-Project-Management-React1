@@ -192,22 +192,23 @@ function Backlog() {
                     <option value="DONE">DONE</option>
                   </select>
                 </div>
+                
+                &nbsp;&nbsp;
+                {/* Update Sprint Button */}
+                <div className="me-2">
+                  <button
+                    className="btn btn-warning" 
+                    onClick={() => handleUpdateSprintModalOpen(tasksBySprint[sprintTitle]?.[0]?.sprint)}
+                  >
+                    Update
+                  </button>
+                </div>
                 <div>
                   <button
                     className="btn btn-danger"
                     onClick={() => handleDeleteSprint(tasksBySprint[sprintTitle]?.[0]?.sprint.id)}
                   >
                     Delete Sprint
-                  </button>
-                </div>
-                &nbsp;&nbsp;
-                {/* Update Sprint Button */}
-                <div className="me-2">
-                  <button
-                    className="btn btn-secondary" 
-                    onClick={() => handleUpdateSprintModalOpen(tasksBySprint[sprintTitle]?.[0]?.sprint)}
-                  >
-                    Update
                   </button>
                 </div>
               </div>
