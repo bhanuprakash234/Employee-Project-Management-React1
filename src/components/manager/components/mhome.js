@@ -91,7 +91,7 @@ function ManagerHome(props) {
   return (
     
     
-    <div className="container mt-4 ">
+    <div className="container mt-4">
       {/* Header Row */}
       <Row className="mb-3">
         <Col>
@@ -112,54 +112,62 @@ function ManagerHome(props) {
 
       {/* Display search results or all projects based on the search query */}
       <Card>
-  <Card.Header className="bg-primary text-white">Projects</Card.Header>
-  <ListGroup variant="flush">
-    {searchQuery.trim().length > 0 ? (
-      // Display search results
-      searchResults.map((p, index) => (
-        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-          <div>
-            {/* Display the project title and status in the same line */}
-            <div className="d-flex align-items-center">
-              <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
-              <span className="ml-3" style={{ marginLeft: 'auto' }}>{/* Move status to the right */}Status: {p.status}</span>
-            </div>
-          </div>
-          <div>
-            {/* Move the "Update" button to the right side */}
-            <Button variant="info" size="sm" onClick={() => handleShowModal(p)}>Update</Button>
-          </div>
-        </ListGroup.Item>
-      ))
-    ) : (
-      // Display all projects
-      projects.map((p, index) => (
-        <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-          <div>
-            {/* Display the project title and status in the same line */}
-            <div className="d-flex align-items-center">
-              <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
+        <Card.Header className="bg-primary text-white">Projects</Card.Header>
+        <ListGroup variant="flush">
+          {searchQuery.trim().length > 0 ? (
+            // Display search results
+            searchResults.map((p, index) => (
+              <Card key={index} className="mb-3">
+                <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                  {/* Display the project title and status in the same line */}
+                  <div className="d-flex align-items-center">
+                    <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>
+                      {p.title}
+                    </Nav.Link>
+                    <span className="ml-3" style={{ marginLeft: "auto" }}>
+                      {/* Move status to the right */}
+                      Status: {p.status}
+                    </span>
+                  </div>
+                  <div>
+                    {/* Move the "Update" button to the right side */}
+                    <Button variant="info" size="sm" onClick={() => handleShowModal(p)}>
+                      Update
+                    </Button>
+                  </div>
+                </ListGroup.Item>
+              </Card>
+            ))
+          ) : (
+            // Display all projects
+            projects.map((p, index) => (
+              <Card key={index} className="mb-3">
+                <ListGroup.Item className="d-flex justify-content-between align-items-center">
+                  {/* Display the project title and status in the same line */}
+                  <div className="d-flex align-items-center">
+                    <Nav.Link onClick={() => navigate("/backlog/sprint/tasks&pid=" + p.id)}>
+                      {p.title}
+                    </Nav.Link>
+                  </div>
+                  <div>
+                    {/* Move the "Update" button to the right side */}
+                    <Button variant="info" size="sm" onClick={() => handleShowModal(p)}>
+                      Update
+                    </Button>
+                  </div>
+                </ListGroup.Item>
+              </Card>
+            ))
+          )}
+        </ListGroup>
+      </Card>
 
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <span className="ml-3" style={{ textAlign:"center" }}>{/* Move status to the right */}Status: {p.status}</span>
-            </div>
-          </div>
-          <div>
-            {/* Move the "Update" button to the right side */}
-            <Button variant="info" size="sm" onClick={() => handleShowModal(p)}>Update</Button>
-          </div>
-        </ListGroup.Item>
-      ))
-    )}
-  </ListGroup>
-</Card>
       {/* Add Project Button */}
       <div className="mt-4">
         <button className="btn btn-primary" onClick={() => navigate("/post/project")}>
           Add Project
         </button>
       </div>
-
       {/* Project Update Modal */}
       <Modal show={showModal} onHide={handleCloseModal} centered size="lg" >
   <Modal.Header closeButton>

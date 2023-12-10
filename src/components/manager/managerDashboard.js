@@ -6,6 +6,7 @@ import ManagerEmployeeComponent from "./components/employeecomp";
 import ManagerHome from "./components/mhome";
 import ManagerNavbar from "./components/mNavbar";
 import YourProfile1 from "./components/your_profile";
+import Reports from "./components/reports";
 
 function ManagerDashboard() {
   
@@ -47,6 +48,7 @@ function ManagerDashboard() {
         </div>
       );
     }
+    
   };
 
   return (

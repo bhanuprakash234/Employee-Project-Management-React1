@@ -5,35 +5,23 @@ import { useNavigate, useParams } from "react-router";
 import ManagerNavbar from "./mNavbar";
 
 function ViewTask() {
-  // State for storing task details
   const [taskDetails, setTaskDetails] = useState({});
-  // State for storing worklogs
   const [worklogs, setWorklogs] = useState([]);
-  // State for storing the input for adding a new worklog
   const [workLogInput, setWorkLogInput] = useState('');
-  // State for storing the current user
   const [currentUser, setCurrentUser] = useState('');
-  // State for storing the name
   const [name, setName] = useState('');
-
-  const navigate=useNavigate();
-
-  // New state for modal
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // State for storing updated task details in the modal
   const [updatedTaskDetails, setUpdatedTaskDetails] = useState({
     title: '',
     details: '',
     numberOfDays: '',
   });
 
-  // Extracting taskId from the URL params
   const { tid } = useParams();
   const taskId = tid.split("=")[1];
 
-  // useEffect to fetch task details, worklogs, and current user on component mount
   useEffect(() => {
-    // Fetch task details
     const storedName = localStorage.getItem('username');
     setName(storedName);
 
@@ -44,7 +32,6 @@ function ViewTask() {
         console.error("Error in fetching task details:", error)
       );
 
-    // Fetch worklogs for the task
     axios
       .get("http://localhost:5050/worklog/task/" + taskId)
       .then((response) => setWorklogs(response.data))
@@ -52,29 +39,23 @@ function ViewTask() {
         console.error("Error in fetching worklogs for the task:", error)
       );
 
-    // Fetch current user information (assuming it's stored in localStorage)
     setCurrentUser(localStorage.getItem('userRole'));
   }, [taskId]);
 
-  // Function to handle input change in the worklog form
   const handleInputChange = (e) => {
     setWorkLogInput(e.target.value);
   };
 
-  // Function to handle adding a new worklog
   const handleAddWorklog = () => {
     let worklogObj = {
       "log": workLogInput,
       "name": name,
     };
 
-    // Make an API call to add worklog
     axios
       .post('http://localhost:5050/worklog/add/' + taskId, worklogObj)
       .then((response) => {
-        // Refresh worklogs after adding a new one
         setWorklogs((prevWorklogs) => [...prevWorklogs, response.data]);
-        // Clear the new worklog form
         setWorkLogInput("");
       })
       .catch((error) =>
@@ -82,11 +63,8 @@ function ViewTask() {
       );
   };
 
-  // Functions for modal
-  // Function to open the modal
   const openModal = () => {
     setIsModalOpen(true);
-    // Pre-fill modal with current task details
     setUpdatedTaskDetails({
       title: taskDetails.title || "",
       details: taskDetails.details || "",
@@ -94,12 +72,10 @@ function ViewTask() {
     });
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
-  // Function to handle input change in the modal
   const handleModalInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedTaskDetails((prevDetails) => ({
@@ -108,15 +84,11 @@ function ViewTask() {
     }));
   };
 
-  // Function to handle updating task details in the modal
   const handleUpdateTaskDetails = () => {
-    // Make an API call to update task details
     axios
       .put("http://localhost:5050/update/" + taskId, updatedTaskDetails)
       .then((response) => {
-        // Close the modal
         closeModal();
-        // Refresh task details after updating
         setTaskDetails(response.data);
       })
       .catch((error) =>
@@ -124,16 +96,25 @@ function ViewTask() {
       );
   };
 
+  const handleDeleteTask = () => {
+    axios
+      .delete(`http://localhost:5050/task/delete/${taskId}`)
+      .then(() => {
+        navigate(-1);
+      })
+      .catch((error) =>
+        console.error("Error in deleting the task:", error)
+      );
+  };
+
   return (
     <div>
-      {/* Rendering the navigation bar */}
       <ManagerNavbar />
       <div className="container mt-5">
-      <button className="btn btn-primary mb-3" onClick={()=>navigate(-1)}>
+        <button className="btn btn-primary mb-3" onClick={() => navigate(-1)}>
           Go Back
         </button>
         <div className="row">
-          {/* Task Details Section */}
           <div className="col-md-6">
             <h1 style={{ color: "black" }}>Task Details</h1>
             <div className="card mt-4">
@@ -143,23 +124,27 @@ function ViewTask() {
 
               <div className="card-body">
                 <p className="card-text">
-                  Assigned Employee: {taskDetails.employee?.name || "N/A"}
+                  <strong>Assigned Employee:</strong>{" "}
+                  {taskDetails.employee?.name || "N/A"}
                 </p>
-                {/* ... (other task details) */}
-                <p className="card-text">Status: {taskDetails.status}</p>
-              <p className="card-text">
-                Project Title:{" "}
-                {taskDetails.sprint?.backlog?.project?.title || "N/A"}
-              </p>
-              <p className="card-text">
-                Start Date:{" "}
-                {taskDetails.sprint?.backlog?.project?.startDate || "N/A"}
-              </p>
-              <p className="card-text">
-                End Date: {taskDetails.sprint?.backlog?.project?.endDate || "N/A"}
-              </p>
-                {/* Add button to open modal */}
-
+                <p className="card-text">
+                  <strong>Task Details:</strong> {taskDetails.details}
+                </p>
+                <p className="card-text">
+                  <strong>Status:</strong> {taskDetails.status}
+                </p>
+                <p className="card-text">
+                  <strong>Project Title:{" "}</strong>
+                  {taskDetails.sprint?.backlog?.project?.title || "N/A"}
+                </p>
+                <p className="card-text">
+                  <strong>Start Date:{" "}</strong>
+                  {taskDetails.sprint?.backlog?.project?.startDate || "N/A"}
+                </p>
+                <p className="card-text">
+                  <strong>End Date:</strong>{" "}
+                  {taskDetails.sprint?.backlog?.project?.endDate || "N/A"}
+                </p>
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -167,11 +152,19 @@ function ViewTask() {
                 >
                   Update Task Details
                 </button>
+
+                {/* Button to delete the task */}
+                <button
+                  type="button"
+                  className="btn btn-danger ml-2"
+                  onClick={handleDeleteTask}
+                >
+                  Delete Task
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Worklog Section */}
           <div className="col-md-6">
             <div className="mt-4">
               <h5>Worklogs</h5>
@@ -183,13 +176,13 @@ function ViewTask() {
                       className="list-group-item d-flex justify-content-between align-items-center"
                     >
                       <div>
-                        <strong>
-                          {worklog.name}
-                        </strong>
+                        <strong>{worklog.name}</strong>
                         <br />
                         {worklog.log}
                       </div>
-                      <div><small>{worklog.logDate}</small></div>
+                      <div>
+                        <small>{worklog.logDate}</small>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -198,7 +191,6 @@ function ViewTask() {
               )}
             </div>
 
-            {/* Add Worklog Form */}
             <div className="mt-4">
               <h5>Add Worklog</h5>
               <form>
@@ -228,7 +220,6 @@ function ViewTask() {
         </div>
       </div>
 
-      {/* Update Task Details Modal */}
       <div
         className={`modal ${isModalOpen ? "show" : ""}`}
         style={{ display: isModalOpen ? "block" : "none" }}

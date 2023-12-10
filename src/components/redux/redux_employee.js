@@ -19,14 +19,14 @@ function ReduxEmployeeHome(){
       <ListGroup variant="flush">
         {list.map((p, index) => (
           <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-            <Nav.Link onClick={() => navigate("/employee/backlog/sprint/tasks&pid=" + p.id)}>{p.title}</Nav.Link>
+            <Nav.Link onClick={() => navigate("/employee/backlog/sprint/tasks&pid=" + p.id)}>
+              {p.title}
+            </Nav.Link>
+            <span className="text-muted"><strong>Status: </strong>{p.status}</span>
           </ListGroup.Item>
         ))}
       </ListGroup>
     </Card>
-    <div className="mt-4">
-     
-    </div>
   </div>)
 }
 export default ReduxEmployeeHome;

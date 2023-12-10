@@ -17,6 +17,7 @@ function ManagerNavbar({ func }) {
               <Nav.Link onClick={() => navigate('/manager/dashboard?page=home')}>Home</Nav.Link>
               <Nav.Link onClick={() => navigate('/manager/dashboard?page=employees')}>Employees</Nav.Link>
               <Nav.Link onClick={() => navigate('/manager/dashboard?page=project')}>Project</Nav.Link>
+              
             </Nav>
             <Nav className="d-flex align-items-center">
               <Navbar.Text className="me-3">

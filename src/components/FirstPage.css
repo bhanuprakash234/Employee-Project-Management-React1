@@ -10,6 +10,7 @@
     height: 135%;
     background-image: url('./development.jpg'); /* Replace with the path to your image */
     background-size: cover;
+    filter: blur(2px);
      /* Adjust the blur effect as needed */
   }
   
