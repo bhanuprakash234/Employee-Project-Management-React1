@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Button, Container, Table } from "react-bootstrap";
+import { Button, Card, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import ManagerSideBar from "./sidebar";
 
 function ProjectEmployeeComponent() {
   const [projects, setProjects] = useState([]);
@@ -35,13 +34,14 @@ function ProjectEmployeeComponent() {
     });
 
     return Object.values(groupedProjects).map((p, index) => (
-      <tr key={index}>
-        <td>{p.title}</td>
-        <td>{p.employees.join(', ')}</td>
-        <td>{p.longDesc}</td>
-        <td>{p.startDate}</td>
-        <td>{p.endDate}</td>
-      </tr>
+      <Card key={index} className="mb-3">
+        <Card.Body>
+          <Card.Title>{p.title}</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">{p.startDate} - {p.endDate}</Card.Subtitle>
+          <Card.Text>{p.longDesc}</Card.Text>
+          <Card.Text><strong>Employees: </strong>{p.employees.join(', ')}</Card.Text>
+        </Card.Body>
+      </Card>
     ));
   };
 
@@ -49,18 +49,7 @@ function ProjectEmployeeComponent() {
     <Container className="mt-4">
       <h2 className="mb-4">Employee Projects</h2>
       {projects.length > 0 ? (
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Project Title</th>
-              <th>Employees</th>
-              <th>Description</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-            </tr>
-          </thead>
-          <tbody>{renderProjects()}</tbody>
-        </Table>
+        <div>{renderProjects()}</div>
       ) : (
         <div className="text-center mt-4">
           <p>No projects found for the manager.</p>

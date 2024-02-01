@@ -16,7 +16,7 @@ function ProjectDisp() {
       .get("http://localhost:5050/project/getAll/manager/" + mid)
       .then((response) => setProjects(response.data))
       .catch((error) => setMsg("Error in Fetching projects"));
-  }, []);
+  }, [mid]);
   
 
   return (
