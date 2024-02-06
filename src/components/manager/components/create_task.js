@@ -31,9 +31,24 @@ function CreateTask() {
   const handleCreateTask = () => {
     const sprintId = sid.split('=')[1];
 
-    // Make sure to validate that all required fields are filled
-    if (!title || !days || !employeeId) {
-      alert('Please fill in all fields');
+    // Validate that all required fields are filled
+    if (!title.trim()) {
+      setMsg('Please enter a title');
+      return;
+    }
+
+    if (!days.trim() || isNaN(days)) {
+      setMsg('Please enter a valid number of days');
+      return;
+    }
+
+    if (!details.trim()) {
+      setMsg('Please enter task details');
+      return;
+    }
+
+    if (!employeeId.trim()) {
+      setMsg('Please select an employee');
       return;
     }
 
@@ -53,16 +68,14 @@ function CreateTask() {
 
         // Send a notification to the selected employee
         const notificationData = {
-          
-          message: 'You have been assigned a task,Check Your Work Section to view your added tasks',
+          message: 'You have been assigned a task. Check Your Work Section to view your added tasks',
         };
 
         axios
-          .post('http://localhost:5050/sendNotification/'+employeeId, notificationData)
-          .then(response=>{
-            setNotification(response.data)
-            
-        })
+          .post('http://localhost:5050/sendNotification/' + employeeId, notificationData)
+          .then((response) => {
+            setNotification(response.data);
+          })
           .catch((notificationError) => {
             console.error('Error sending notification:', notificationError);
           });
@@ -74,67 +87,67 @@ function CreateTask() {
       });
   };
 
-
   return (
     <div>
       <ManagerNavbar />
-    <div className="container mt-5">
-      <h1 className="text-primary">Create Task</h1>
+      <div className="container mt-5">
+        <h1 className="text-primary">Create Task</h1>
+        {msg && <div className="alert alert-danger">{msg}</div>}
+        <form>
+          <div className="form-group mt-4">
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              id="title"
+              className="form-control"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
 
-      <div className="form-group mt-4">
-        <label htmlFor="title">Title:</label>
-        <input
-          type="text"
-          id="title"
-          className="form-control"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="days">Number of Days:</label>
+            <input
+              type="text"
+              id="days"
+              className="form-control"
+              value={days}
+              onChange={(e) => setDays(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="details">Enter Details:</label>
+            <textarea
+              id="details"
+              className="form-control"
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
+            ></textarea>
+          </div>
 
-      <div className="form-group">
-        <label htmlFor="days">Number of Days:</label>
-        <input
-          type="text"
-          id="days"
-          className="form-control"
-          value={days}
-          onChange={(e) => setDays(e.target.value)}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="details">Enter Details:</label>
-        <input
-          type="text"
-          id="details"
-          className="form-control"
-          value={details}
-          onChange={(e) => setDetails(e.target.value)}
-        />
-      </div>
+          <div className="form-group">
+            <label htmlFor="employee">Select Employee:</label>
+            <select
+              id="employee"
+              className="form-control"
+              value={employeeId}
+              onChange={(e) => setEmployeeId(e.target.value)}
+            >
+              <option value="">Select Employee</option>
+              {employees.map((employee) => (
+                <option key={employee.id} value={employee.id}>
+                  {employee.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <br />
 
-      <div className="form-group">
-        <label htmlFor="employee">Select Employee:</label>
-        <select
-          id="employee"
-          className="form-control"
-          value={employeeId}
-          onChange={(e) => setEmployeeId(e.target.value)}
-        >
-          <option value="">Select Employee</option>
-          {employees.map((employee) => (
-            <option key={employee.id} value={employee.id}>
-              {employee.name}
-            </option>
-          ))}
-        </select>
+          <button type="button" className="btn btn-primary" onClick={handleCreateTask}>
+            Create Task
+          </button>
+        </form>
       </div>
-      <br />
-
-      <button className="btn btn-primary" onClick={handleCreateTask}>
-        Create Task
-      </button>
-    </div>
     </div>
   );
 }

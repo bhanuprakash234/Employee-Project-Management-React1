@@ -49,18 +49,21 @@ function Backlog() {
     fetchData();
   }, [extractedPid]);
 
-  const handleUpdateProject = async (status) => {
-    let updateProject = {
-      "id": extractedPid,
-      "status": status,
-    };
-    try {
-      await axios.put(`http://localhost:5050/update/project`, updateProject);
-      await fetchData();
-    } catch (error) {
-      console.error("Error in updating project status:", error);
+  const handleUpdateProject = async (status) =>{
+try {
+console.log("Updating project with status:", status);
+await axios.put (`http://localhost:5050/project/update/${extractedPid}`,
+{status},
+{headers:{'Content-Type'  :  'application/json' }}
+);
+console.log("Project update successful");
+await fetchData();
+}catch (error) {
+console.error ("Error in updating project status:", error);
     }
   };
+  
+  
 
   const handleDeleteProject = async () => {
     try {
@@ -89,18 +92,22 @@ function Backlog() {
     }
   };
 
-  const handleUpdateSprintStatus = async (sprintId, status) => {
-    try {
-      let updateSprint = {
-        "id": sprintId,
-        "status": status,
-      };
-      await axios.put(`http://localhost:5050/update/sprint`, updateSprint);
-      await fetchData();
-    } catch (error) {
-      console.error("Error in updating sprint status:", error);
+  const handleUpdatesprintstatus = async (sprintId, status) =>{
+  try {
+  console. log("Updating sprint status:"
+  , status);
+  await axios.put (`http://localhost:5050/sprint/update/${sprintId}`,
+  {status},
+  {headers: { 'Content-Type' : 'application/json' }}
+  );
+  await fetchData();
+  }catch (error) {
+  console.error ("Error in updating sprint status:", error);
     }
   };
+  
+  
+  
 
   const handleDeleteSprint = async (sprintId) => {
     try {
@@ -188,7 +195,7 @@ function Backlog() {
                   className="form-select"
                   value={tasksBySprint[sprint.title]?.[0]?.sprint.status || "TO_DO"}
                   onChange={(e) =>
-                    handleUpdateSprintStatus(tasksBySprint[sprint.title]?.[0]?.sprint.id, e.target.value)
+                    handleUpdatesprintstatus(tasksBySprint[sprint.title]?.[0]?.sprint.id, e.target.value)
                   }
                 >
                   <option value="TO_DO">TO-DO</option>

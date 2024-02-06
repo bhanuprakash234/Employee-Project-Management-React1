@@ -1,19 +1,15 @@
-
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 
-// Import your custom styles
-
 function PostEmployeeProject() {
   const [param] = useSearchParams();
   const [employees, setEmployees] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState('');
-  const [selectedProject, setSelectedProject] = useState('');
+  const [selectedEmployee, setSelectedEmployee] = useState(null); // Changed initial state to null
+  const [selectedProject, setSelectedProject] = useState(null); // Changed initial state to null
   const [empproj, setEmpproj] = useState([]);
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate();

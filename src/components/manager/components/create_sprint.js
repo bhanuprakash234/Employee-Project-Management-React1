@@ -13,54 +13,56 @@ function CreateSprint() {
   const { bid } = useParams();
   const navigate = useNavigate();
 
-  const handleCreateSprint =()=> {
-    const backlogId = bid.split('=')[1];
-    let sprintObj={
-        "title":title,
-        "duration":duration
-        
+  const handleCreateSprint = () => {
+    if (!title || !duration) {
+      // Check if title or duration is empty
+      setMsg("Please fill in both fields.");
+      return;
     }
-    axios.post('http://localhost:5050/sprint/add/'+backlogId, sprintObj)
-    .then(response=>{
-        setSprint(response.data)
+    const backlogId = bid.split("=")[1];
+    let sprintObj = {
+      title: title,
+      duration: duration,
+    };
+    axios
+      .post("http://localhost:5050/sprint/add/" + backlogId, sprintObj)
+      .then((response) => {
+        setSprint(response.data);
         navigate(-1);
-    })
-    .catch(function(error){
-        setMsg("Issue in processing in signup")
-    });
-
-
-    
-   
+      })
+      .catch(function (error) {
+        setMsg("Issue in processing in signup");
+      });
   };
 
   return (
     <div>
       <ManagerNavbar />
-    <div className="create-sprint-container mt-4">
-      <h2>Create Sprint</h2>
-      <div className="form-group">
-        <label htmlFor="title">Enter Title:</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+      <div className="create-sprint-container mt-4">
+        <h2>Create Sprint</h2>
+        <div className="form-group">
+          <label htmlFor="title">Enter Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="duration">Enter Duration:</label>
+          <input
+            type="text"
+            id="duration"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+          />
+        </div>
+        <button className="create-btn" onClick={handleCreateSprint}>
+          Create Sprint
+        </button>
+        {msg && <p className="error-message">{msg}</p>}
       </div>
-      <div className="form-group">
-        <label htmlFor="duration">Enter Duration:</label>
-        <input
-          type="text"
-          id="duration"
-          value={duration}
-          onChange={(e) => setDuration(e.target.value)}
-        />
-      </div>
-      <button className="create-btn" onClick={handleCreateSprint}>
-        Create Sprint
-      </button>
-    </div>
     </div>
   );
 }
