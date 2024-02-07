@@ -1,10 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button, Card, Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Card, Container, FormControl, InputGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function ProjectEmployeeComponent() {
   const [projects, setProjects] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const [msg, setMsg] = useState('');
   const navigate = useNavigate();
 
@@ -17,19 +19,34 @@ function ProjectEmployeeComponent() {
       .catch(error => setMsg('Error in Fetching projects'));
   }, []);
 
-  const renderProjects = () => {
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      axios.get(`http://localhost:5050/search/project/${searchQuery}`)
+        .then(response => setSearchResults(response.data))
+        .catch(error => {
+          console.error("Error in searching projects:", error);
+          setMsg('Error in searching projects');
+        });
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const renderProjects = (projectsToRender) => {
     const groupedProjects = {};
 
-    projects.forEach(p => {
-      const projectId = p.project.id;
+    projectsToRender.forEach(p => {
+      if (p.project && p.employee) {
+        const projectId = p.project.id;
 
-      if (groupedProjects[projectId]) {
-        groupedProjects[projectId].employees.push(p.employee.name);
-      } else {
-        groupedProjects[projectId] = {
-          ...p.project,
-          employees: [p.employee.name],
-        };
+        if (groupedProjects[projectId]) {
+          groupedProjects[projectId].employees.push(p.employee.name);
+        } else {
+          groupedProjects[projectId] = {
+            ...p.project,
+            employees: [p.employee.name],
+          };
+        }
       }
     });
 
@@ -48,12 +65,25 @@ function ProjectEmployeeComponent() {
   return (
     <Container className="mt-4">
       <h2 className="mb-4">Employee Projects</h2>
-      {projects.length > 0 ? (
-        <div>{renderProjects()}</div>
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="Search by project name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Button variant="outline-secondary" onClick={handleSearch}>Search</Button>
+      </InputGroup>
+      {msg && <p className="text-danger">{msg}</p>}
+      {searchResults.length > 0 ? (
+        <div>{renderProjects(searchResults)}</div>
       ) : (
-        <div className="text-center mt-4">
-          <p>No projects found for the manager.</p>
-        </div>
+        projects.length > 0 ? (
+          <div>{renderProjects(projects)}</div>
+        ) : (
+          <div className="text-center mt-4">
+            <p>No projects found for the manager.</p>
+          </div>
+        )
       )}
       <div className="text-center mt-3">
         <Button variant="primary" onClick={() => navigate('/post/employee/project')}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -12,6 +12,15 @@ function CreateSprint() {
   const [msg, setMsg] = useState("");
   const { bid } = useParams();
   const navigate = useNavigate();
+
+  // Title suggestions
+  const [titleSuggestions, setTitleSuggestions] = useState([]);
+
+  useEffect(() => {
+    // Fetch title suggestions from API endpoint
+    // Example: axios.get("http://localhost:5050/suggestions/titles")
+    //   .then(response => setTitleSuggestions(response.data));
+  }, []);
 
   const handleCreateSprint = () => {
     if (!title || !duration) {
@@ -35,6 +44,14 @@ function CreateSprint() {
       });
   };
 
+  // Duration format validation
+  const handleDurationChange = (e) => {
+    const value = e.target.value;
+    // Validate duration format (e.g., numeric input only)
+    // Example: if (!(/^\d+$/.test(value))) { setMsg("Duration should be a number."); }
+    setDuration(value);
+  };
+
   return (
     <div>
       <ManagerNavbar />
@@ -47,6 +64,13 @@ function CreateSprint() {
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            // Suggestions for title
+            // Example: <datalist id="titleSuggestions">
+            //             {titleSuggestions.map((suggestion, index) => (
+            //               <option key={index} value={suggestion} />
+            //             ))}
+            //           </datalist>
+            // <input list="titleSuggestions" />
           />
         </div>
         <div className="form-group">
@@ -55,8 +79,10 @@ function CreateSprint() {
             type="text"
             id="duration"
             value={duration}
-            onChange={(e) => setDuration(e.target.value)}
+            onChange={handleDurationChange}
           />
+          {/* Duration format hint */}
+          {/* Example: <p style={{ color: 'gray', fontSize: '0.8rem' }}>Enter duration in days</p> */}
         </div>
         <button className="create-btn" onClick={handleCreateSprint}>
           Create Sprint

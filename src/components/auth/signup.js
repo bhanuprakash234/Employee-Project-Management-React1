@@ -8,7 +8,6 @@ function SignUp() {
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [manager, setManager] = useState('');
     const [email, setEmail] = useState('');
     const [msg, setMsg] = useState('');
     const navigate = useNavigate();
@@ -48,8 +47,8 @@ function SignUp() {
 
         axios.post('http://localhost:5050/manager/add', managerObj)
             .then(response => {
-                setManager(response.data);
-                navigate('/auth/login?msg="signup success"');
+                setMsg("Signup successful");
+                navigate('/auth/login');
             })
             .catch(function (error) {
                 setMsg("Issue in processing in signup");
@@ -72,37 +71,53 @@ function SignUp() {
                           <h3 style={{ textAlign: "center" }}>Sign Up</h3>
                       </Card.Header>
                       <Card.Body>
-                          {msg !== "" ? (
+                          {msg && (
                               <div className="alert alert-danger" role="alert">
                                   {msg}
                               </div>
-                          ) : null}
+                          )}
                                 <Form>
                                     <Form.Group as={Row} controlId="formName">
                                         <Form.Label column md={6} style={{textAlign:"center"}}>Enter Name:</Form.Label>
                                         <Col md={6}>
-                                            <Form.Control type="text" onChange={(e) => setName(e.target.value)} />
+                                            <Form.Control 
+                                                type="text" 
+                                                onChange={(e) => setName(e.target.value)} 
+                                                placeholder="e.g., John Doe" 
+                                            />
                                         </Col>
                                     </Form.Group>
 
                                     <Form.Group as={Row} controlId="formEmail">
                                         <Form.Label column md={6} style={{textAlign:"center"}}>Enter Email:</Form.Label>
                                         <Col md={6}>
-                                            <Form.Control type="email" onChange={(e) => setEmail(e.target.value)} />
+                                            <Form.Control 
+                                                type="email" 
+                                                onChange={(e) => setEmail(e.target.value)} 
+                                                placeholder="e.g., john@example.com" 
+                                            />
                                         </Col>
                                     </Form.Group>
 
                                     <Form.Group as={Row} controlId="formUsername">
                                         <Form.Label column md={6} style={{textAlign:"center"}}>Enter Username:</Form.Label>
                                         <Col md={6}>
-                                            <Form.Control type="text" onChange={(e) => setUsername(e.target.value)} />
+                                            <Form.Control 
+                                                type="text" 
+                                                onChange={(e) => setUsername(e.target.value)} 
+                                                placeholder="e.g., john_doe123" 
+                                            />
                                         </Col>
                                     </Form.Group>
 
                                     <Form.Group as={Row} controlId="formPassword">
                                         <Form.Label column md={6} style={{textAlign:"center"}}>Enter Password:</Form.Label>
                                         <Col md={6}>
-                                            <Form.Control type="password" onChange={(e) => setPassword(e.target.value)} />
+                                            <Form.Control 
+                                                type="password" 
+                                                onChange={(e) => setPassword(e.target.value)} 
+                                                placeholder="Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one digit, and one special character" 
+                                            />
                                         </Col>
                                     </Form.Group>
                                 </Form>
